@@ -113,22 +113,44 @@ class World {
 
     createBranchedRoom(lengthOfMainBranch) {
         const count = a => {
-            if(a < 5) {
+            if (a < 5) {
                 return [];
             } else {
-                return [a, ...count(Math.floor(a*0.7))];
+                return [a, ...count(Math.floor(a * 0.7))];
             }
         }
         let branches = count(lengthOfMainBranch);
-        let diff = Math.abs(branches[branches.length-1] - branches[branches.length - 2]);
-        let rndm = Math.floor(diff*Math.random());
-        let start = branches.flat().reduce((acc, cur) => cur + acc);
-        
-        console.log(branches, diff, rndm, start);
-        
-        
-        
-        
+        let diffArray = [];
+        let randAwway = [];
+
+        for (let i = 0; i < branches.length - 1; i++) {
+            diffArray[i] = Math.abs(branches[i + 1] - branches[i]);
+            randAwway[i] = Math.floor(Math.abs(diffArray[i]*Math.random()));
+        }
+
+
+        // console.log(branches, diff, rndm);
+
+        let cur_id = 0;
+
+        for (let i = 0; i < branches.length; i++) {
+            for (let j = 0; j < branches[i]; j++) {
+                j + cur_id;
+                let temp;
+                if(j === randAwway[i]) {
+                    temp = new Room(j + cur_id, [(j + 1) === branches[i] ? null : j + cur_id + 1, (j - 1) === -1 ? null : j + cur_id - 1, cur_id + branches[i]].filter(element => element !== null));
+                } else {
+                    temp = new Room(j + cur_id, [(j + 1) === branches[i] ? null : j + cur_id + 1, (j - 1) === -1 ? null : j + cur_id - 1].filter(element => element !== null));
+                }
+                this.rooms[temp.id] = temp;
+            }
+            cur_id += branches[i];
+        }
+        console.log(randAwway, diffArray)
+
+
+
+
         // if (lengthOfMainBranch < 5) {
         //     return [];
         // } else {
@@ -147,7 +169,7 @@ class World {
 }
 
 let world = {
-    "1" : {
-        name : "dkjkjkd"
+    "1": {
+        name: "dkjkjkd"
     }
 }
