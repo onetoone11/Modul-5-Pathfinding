@@ -65,6 +65,13 @@ const mod = (a,b) => {
     return a - b * Math.floor(a/b);
 }
 
+const neighbours = [
+    [1,0],
+    [0,1],
+    [-1,0],
+    [0,-1]
+]
+
 class World {
     constructor(name, length) {
         this.name = name;
@@ -90,8 +97,18 @@ class World {
         }
     }
 
+    to1D(x, y, rowlength) {
+        return (y * rowlength) + x;
+    }
+
     createSquareRoom(sideLength) {
-        
+        for(let x = 0; x < sideLength; x++) {
+            for(let y = 0; y < sideLength; y++) {
+                let temp = new Room(this.to1D(x, y, sideLength), 
+                neighbours.map(element => this.to1D(x + element[0] > sideLength ? null : x + element[0], y + element[1] > sideLength ? null : y + element[1], sideLength)));
+                this.rooms[temp.id] = temp;
+            }
+        }
     }
 
     getRoom(id) {
