@@ -105,7 +105,7 @@ class World {
         for(let x = 0; x < sideLength; x++) {
             for(let y = 0; y < sideLength; y++) {
                 let temp = new Room(this.to1D(x, y, sideLength), 
-                neighbours.map(element => this.to1D(x + element[0] > sideLength ? null : x + element[0], y + element[1] > sideLength ? null : y + element[1], sideLength)));
+                neighbours.map(element => (x + element[0] < 0 || x + element[0] >= sideLength || y + element[1] < 0 || y + element[1] >= sideLength) ? null : this.to1D(x + element[0], y + element[1], sideLength)).filter(element => element !== null) );
                 this.rooms[temp.id] = temp;
             }
         }
