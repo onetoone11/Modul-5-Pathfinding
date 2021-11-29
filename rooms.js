@@ -42,10 +42,10 @@ const names = () => {
 }
 
 class Room {
-    constructor(id, exits) {
+    constructor(id) {
         this.id = id;
         this.name = names();
-        this.exits = exits;
+        this.exits = [];
     }
 
     name() {
@@ -54,6 +54,10 @@ class Room {
 
     exits() {
         return this.exits;
+    }
+
+    addExits(...exits) {
+        this.exits.push(...exits);
     }
 
     id() {
@@ -72,6 +76,10 @@ const neighbours = [
     [0, -1]
 ]
 
+// const arrayMake = val => func => {
+//     if()
+// }
+
 class World {
     constructor(name, length) {
         this.name = name;
@@ -83,17 +91,25 @@ class World {
         return this.rooms.length;
     }
 
-    createStringRooms() {
-        for (let i = 0; i < this.length; i++) {
-            let temp = new Room(i, [(i + 1) === this.length ? null : i + 1, (i - 1) === -1 ? null : i - 1].filter(element => element !== null));
-            this.rooms[temp.id] = temp;
-        }
+    createStringRooms(count = 0) {
+        // for (let i = 0; i < this.length; i++) {
+        //     let temp = new Room;
+        //     if(i = 0) {
+
+        //     }
+        //     // (i, [(i + 1) === this.length ? null : i + 1, (i - 1) === -1 ? null : i - 1].filter(element => element !== null));
+        //     this.rooms[temp.id] = temp;
+        // }
+        if(count === this.length)
+            return [[count-1]];
+        if(count === 0)
+            return [[1], ...this.createStringRooms(count+1)];
+        return [[count-1,count+1], ...this.createStringRooms(count+1)];
     }
 
     createCircularRooms() {
         for (let i = 0; i < this.length; i++) {
-            let temp = new Room(i, [mod(i + 1, this.length), mod(i - 1, this.length)]);
-            this.rooms[temp.id] = temp;
+            this.rooms[i] = new Room(i, [mod(i + 1, this.length), mod(i - 1, this.length)]);
         }
     }
 
@@ -112,13 +128,7 @@ class World {
     }
 
     createBranchedRoom(lengthOfMainBranch) {
-        const count = a => {
-            if (a < 5) {
-                return [];
-            } else {
-                return [a, ...count(Math.floor(a * 0.7))];
-            }
-        }
+        const count = a => (a < 5) ? [] : [a, ...count(Math.floor(a*0.7))];
         let branches = count(lengthOfMainBranch);
         let diffArray = [];
         let randAwway = [];
@@ -127,9 +137,6 @@ class World {
             diffArray[i] = Math.abs(branches[i + 1] - branches[i]);
             randAwway[i] = Math.floor(Math.abs(diffArray[i]*Math.random()));
         }
-
-
-        // console.log(branches, diff, rndm);
 
         let cur_id = 0;
 
@@ -146,11 +153,7 @@ class World {
             }
             cur_id += branches[i];
         }
-        console.log(randAwway, diffArray)
-
-
-
-
+        console.log(randAwway, diffArray);
         // if (lengthOfMainBranch < 5) {
         //     return [];
         // } else {
@@ -163,13 +166,112 @@ class World {
         // }
     }
 
+    // altBranch()
+
     getRoom(id) {
         return this.rooms[id];
     }
 }
 
+class StringWorld {
+    constructor(length) {
+        function createStringRooms(count = 0, length) {
+            // for (let i = 0; i < this.length; i++) {
+            //     let temp = new Room;
+            //     if(i = 0) {
+    
+            //     }
+            //     // (i, [(i + 1) === this.length ? null : i + 1, (i - 1) === -1 ? null : i - 1].filter(element => element !== null));
+            //     this.rooms[temp.id] = temp;
+            // }
+            if(count === length)
+                return [[count-1]];
+            if(count === 0)
+                return [[1], ...createStringRooms(count+1)];
+            return [[count-1,count+1], ...createStringRooms(count+1)];
+        }
+        
+    }
+}
+
+const arrayMake = func => condition => val => {
+    if(condition(val)) {
+        return [];
+    }
+    return [val, ...arrayMake(func(val))(func)(condition)]
+}
+
+// const count = a => (a < 5) ? [] : [a, ...count(Math.floor(a*0.7))];
+
+// const count = arrayMake(x => Math.floor(a*0.7))(x => x < 5);
+
+// const altBranch = lengthOfMainBranch => (arrayCallback = []) => {
+//     if(lengthOfMainBranch < 5) {
+//         return arrayCallback;
+//     }
+//     return altBranch(lengthOfMainBranch*0.7, []);
+// }
+
+
+
+// createStringRooms(count = 0) {
+
+//     if(count === this.length) {
+//         return [[count+1]];
+//     }
+//     if(count === 0) {
+//         return [[1], ...this.createStringRooms(count+1)];
+//     }
+//     return [[count-1,count+1], ...this.createStringRooms(count+1)];
+// }
+
 let world = {
     "1": {
-        name: "dkjkjkd"
+        name: "dkjkjkd",
+        exits: [3,4,5,6]
+    }
+}
+
+
+class BranchedWorld {
+    constructor(lengthOfMainBranch) {
+        this.rooms = {};
+        const count = a => (a < 5) ? [] : [a, ...count(Math.floor(a*0.7))];
+        let branches = count(lengthOfMainBranch);
+        let diffArray = [];
+        let randAwway = [];
+        for (let i = 0; i < branches.length - 1; i++) {
+            diffArray[i] = Math.abs(branches[i + 1] - branches[i]);
+            randAwway[i] = Math.floor(Math.abs(diffArray[i]*Math.random()));
+        }
+        const totalLength = branches.reduce((acc, cur) => acc + cur);
+
+        for(let i = 0; i < totalLength; i++) {
+            this.rooms[i] = new Room(i);
+        }
+        let cur_id = 0;
+
+        for (let i = 0; i < branches.length; i++) {
+            for (let j = 0; j < branches[i]; j++) {
+                let currentPosition = j + cur_id;
+                if(j === 0) {   //if in start position
+                    this.rooms[currentPosition].addExits(currentPosition + 1);
+                }
+                if(j > 0 && j < branches[i] - 1) {
+                    this.rooms[currentPosition].addExits(currentPosition+1, currentPosition-1);
+                }
+                if(j === branches[i] - 1) { //if on end of branch
+                    this.rooms[currentPosition].addExits(currentPosition - 1);
+                }
+                if(j === randAwway[i]) { //if 
+                    this.rooms[currentPosition].addExits(cur_id + branches[i]);
+                    this.rooms[cur_id + branches[i]].addExits(currentPosition);
+                    this.rooms[currentPosition + branches[i+1]].addExits(cur_id + branches[i] + branches[i+1] - 1);
+                    this.rooms[cur_id + branches[i] + branches[i+1] - 1].addExits(currentPosition);
+                }
+            }
+            cur_id += branches[i];
+        }
+        console.log(randAwway, diffArray,branches);
     }
 }
