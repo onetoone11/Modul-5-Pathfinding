@@ -83,7 +83,7 @@ const neighbours = [
 class World {
     constructor(name, length) {
         this.name = name;
-        this.rooms = {};
+        this.rooms = [];
         this.length = length;
     }
 
@@ -120,8 +120,8 @@ class World {
     createSquareRoom(sideLength) {
         for (let x = 0; x < sideLength; x++) {
             for (let y = 0; y < sideLength; y++) {
-                let temp = new Room(this.to1D(x, y, sideLength),
-                    neighbours.map(element => (x + element[0] < 0 || x + element[0] >= sideLength || y + element[1] < 0 || y + element[1] >= sideLength) ? null : this.to1D(x + element[0], y + element[1], sideLength)).filter(element => element !== null));
+                let temp = new Room(this.to1D(x, y, sideLength))
+                temp.addExits(...neighbours.map(element => (x + element[0] < 0 || x + element[0] >= sideLength || y + element[1] < 0 || y + element[1] >= sideLength) ? null : this.to1D(x + element[0], y + element[1], sideLength)).filter(element => element !== null));
                 this.rooms[temp.id] = temp;
             }
         }
@@ -138,79 +138,58 @@ class World {
             randAwway[i] = Math.floor(Math.abs(diffArray[i]*Math.random()));
         }
 
-        let cur_id = 0;
+        let currentBranch = 0;
 
         for (let i = 0; i < branches.length; i++) {
             for (let j = 0; j < branches[i]; j++) {
-                j + cur_id;
+                j + currentBranch;
                 let temp;
                 if(j === randAwway[i]) {
-                    temp = new Room(j + cur_id, [(j + 1) === branches[i] ? null : j + cur_id + 1, (j - 1) === -1 ? null : j + cur_id - 1, cur_id + branches[i]].filter(element => element !== null));
+                    temp = new Room(j + currentBranch, [(j + 1) === branches[i] ? null : j + currentBranch + 1, (j - 1) === -1 ? null : j + currentBranch - 1, currentBranch + branches[i]].filter(element => element !== null));
                 } else {
-                    temp = new Room(j + cur_id, [(j + 1) === branches[i] ? null : j + cur_id + 1, (j - 1) === -1 ? null : j + cur_id - 1].filter(element => element !== null));
+                    temp = new Room(j + currentBranch, [(j + 1) === branches[i] ? null : j + currentBranch + 1, (j - 1) === -1 ? null : j + currentBranch - 1].filter(element => element !== null));
                 }
                 this.rooms[temp.id] = temp;
             }
-            cur_id += branches[i];
+            currentBranch += branches[i];
         }
         console.log(randAwway, diffArray);
-        // if (lengthOfMainBranch < 5) {
-        //     return [];
-        // } else {
-        //     for (let i = count; i < lengthOfMainBranch + count; i++) {
-        //         let temp = new Room(i, );
-        //         this.rooms[temp.id] = temp;
-        //     }
-        //     // return [lengthOfMainBranch,...this.createBranchedRoom(Math.floor(lengthOfMainBranch * 0.7))]
-        //     return this.createBranchedRoom([lengthOfMainBranch, ])
-        // }
     }
-
-    // altBranch()
 
     getRoom(id) {
         return this.rooms[id];
     }
 }
 
-class StringWorld {
-    constructor(length) {
-        function createStringRooms(count = 0, length) {
-            // for (let i = 0; i < this.length; i++) {
-            //     let temp = new Room;
-            //     if(i = 0) {
+// class StringWorld {
+//     constructor(length) {
+//         function createStringRooms(count = 0, length) {
+//             // for (let i = 0; i < this.length; i++) {
+//             //     let temp = new Room;
+//             //     if(i = 0) {
     
-            //     }
-            //     // (i, [(i + 1) === this.length ? null : i + 1, (i - 1) === -1 ? null : i - 1].filter(element => element !== null));
-            //     this.rooms[temp.id] = temp;
-            // }
-            if(count === length)
-                return [[count-1]];
-            if(count === 0)
-                return [[1], ...createStringRooms(count+1)];
-            return [[count-1,count+1], ...createStringRooms(count+1)];
-        }
+//             //     }
+//             //     // (i, [(i + 1) === this.length ? null : i + 1, (i - 1) === -1 ? null : i - 1].filter(element => element !== null));
+//             //     this.rooms[temp.id] = temp;
+//             // }
+//             if(count === length)
+//                 return [[count-1]];
+//             if(count === 0)
+//                 return [[1], ...createStringRooms(count+1)];
+//             return [[count-1,count+1], ...createStringRooms(count+1)];
+//         }
+//         this.roomscreateStringRooms(0, length)
         
-    }
-}
+//     }
+// }
 
-const arrayMake = func => condition => val => {
-    if(condition(val)) {
+const StringWorld = length => {
+    if(length === 0) {
         return [];
     }
-    return [val, ...arrayMake(func(val))(func)(condition)]
+    StringWorld(length - 1);
+    return 
 }
-
-// const count = a => (a < 5) ? [] : [a, ...count(Math.floor(a*0.7))];
-
-// const count = arrayMake(x => Math.floor(a*0.7))(x => x < 5);
-
-// const altBranch = lengthOfMainBranch => (arrayCallback = []) => {
-//     if(lengthOfMainBranch < 5) {
-//         return arrayCallback;
-//     }
-//     return altBranch(lengthOfMainBranch*0.7, []);
-// }
 
 
 
@@ -225,53 +204,185 @@ const arrayMake = func => condition => val => {
 //     return [[count-1,count+1], ...this.createStringRooms(count+1)];
 // }
 
-let world = {
-    "1": {
-        name: "dkjkjkd",
-        exits: [3,4,5,6]
-    }
-}
-
 
 class BranchedWorld {
     constructor(lengthOfMainBranch) {
-        this.rooms = {};
         const count = a => (a < 5) ? [] : [a, ...count(Math.floor(a*0.7))];
         let branches = count(lengthOfMainBranch);
-        let diffArray = [];
-        let randAwway = [];
-        for (let i = 0; i < branches.length - 1; i++) {
-            diffArray[i] = Math.abs(branches[i + 1] - branches[i]);
-            randAwway[i] = Math.floor(Math.abs(diffArray[i]*Math.random()));
-        }
         const totalLength = branches.reduce((acc, cur) => acc + cur);
 
-        for(let i = 0; i < totalLength; i++) {
-            this.rooms[i] = new Room(i);
+        this.rooms = new Array(totalLength).fill('').map((element, index) => new Room(index));
+        
+        let randAwway = [];
+        for (let i = 0; i < branches.length - 1; i++) {
+            randAwway[i] = Math.floor(Math.abs(Math.abs(branches[i + 1] - branches[i])*Math.random()));
         }
-        let cur_id = 0;
+
+        let currentBranch = 0;
 
         for (let i = 0; i < branches.length; i++) {
             for (let j = 0; j < branches[i]; j++) {
-                let currentPosition = j + cur_id;
-                if(j === 0) {   //if in start position
+                let currentPosition = j + currentBranch;
+                if(j === 0)    //if in start position
                     this.rooms[currentPosition].addExits(currentPosition + 1);
-                }
-                if(j > 0 && j < branches[i] - 1) {
+                if(j > 0 && j < branches[i] - 1) 
                     this.rooms[currentPosition].addExits(currentPosition+1, currentPosition-1);
-                }
-                if(j === branches[i] - 1) { //if on end of branch
+                if(j === branches[i] - 1)  //if on end of branch
                     this.rooms[currentPosition].addExits(currentPosition - 1);
-                }
                 if(j === randAwway[i]) { //if 
-                    this.rooms[currentPosition].addExits(cur_id + branches[i]);
-                    this.rooms[cur_id + branches[i]].addExits(currentPosition);
-                    this.rooms[currentPosition + branches[i+1]].addExits(cur_id + branches[i] + branches[i+1] - 1);
-                    this.rooms[cur_id + branches[i] + branches[i+1] - 1].addExits(currentPosition);
+                    this.rooms[currentPosition].addExits(currentBranch + branches[i]);
+                    this.rooms[currentBranch + branches[i]].addExits(currentPosition);
+                    this.rooms[currentPosition + branches[i+1]].addExits(currentBranch + branches[i] + branches[i+1] - 1);
+                    this.rooms[currentBranch + branches[i] + branches[i+1] - 1].addExits(currentPosition);
                 }
             }
-            cur_id += branches[i];
+            currentBranch += branches[i];
         }
-        console.log(randAwway, diffArray,branches);
+        console.log(randAwway,branches);
     }
 }
+
+
+class Queue {
+    constructor() {
+        this.queue = [];
+    }
+
+    enqueue(item) {
+        this.queue.push(item);
+    }
+
+    dequeue() {
+        return this.queue.shift();
+    }
+
+    length() {
+        return this.queue.length;
+    }
+
+    isEmpty() {
+        return (this.queue.length === 0);
+    }
+}
+
+const Stack = head => tail => f => f(head)(tail);
+const TRUE = a => b => a;
+const FALSE = a => b => b;
+const value = a => a(TRUE);
+const next = a => a(FALSE);
+const popHead = next;
+
+function BFS(graph, rootID) {
+    let nodeQueue = new Queue();
+
+    let visited = new Array(graph.rooms.length).fill(false);
+    console.log(visited)
+
+    nodeQueue.enqueue(rootID);
+
+    let steps = 100;
+    while(!nodeQueue.isEmpty() && steps > 0) {
+        let currentNode = nodeQueue.dequeue();
+        console.log(currentNode);
+
+        if(visited[currentNode] === false) {
+            visited[currentNode] = true;
+
+            graph.rooms[currentNode].exits.map(element => {
+                if(visited[element] === false) {
+                    nodeQueue.enqueue(element);
+                }
+            })
+        }
+        steps--;
+        
+    }
+    return visited;
+}
+
+function BFS2(graph, rootID) {
+    let nodeQueue = new Queue();
+
+    let visited = new Array(graph.rooms.length).fill(false);
+    console.log(visited);
+    visited[rootID] = true;
+
+    nodeQueue.enqueue(rootID);
+
+    let steps = 100;
+    while(!nodeQueue.isEmpty() && steps > 0) {
+        let currentNode = nodeQueue.dequeue();
+        console.log(currentNode);
+
+        // if(visited[currentNode] === false) {
+        //     visited[currentNode] = true;
+
+            graph.rooms[currentNode].exits.map(element => {
+                if(visited[element] === false) {
+                    visited[element] = true;
+                    nodeQueue.enqueue(element);
+                }
+            });
+        // }
+        steps--;
+        
+    }
+    return visited;
+}
+// [[0],[0,1],[0,6],[]]
+
+// function BFS(graph, rootID) {
+
+// }
+function hasDuplicate(arr) {
+    return new Set(arr).size !== arr.length
+}
+
+function listPathsBSF(graph, rootID, destination) {
+    let pathQueue = new Queue();
+    pathQueue.enqueue([rootID]);
+    let pathList = [[rootID]];
+    let steps = 200;
+    while(!pathQueue.isEmpty() && steps > 0) {
+        let currentPath = pathQueue.dequeue();
+        graph.rooms[currentPath[currentPath.length-1]].exits.map(element => {
+            pathQueue.enqueue([...currentPath, element]); //append this node to new path
+            pathList.push([...currentPath, element]);
+        });
+        steps--;
+    }
+    return pathList;
+}
+
+function listPathsDFS(graph, rootID, destination) {
+
+}
+
+
+// function pathList2(graph, rootID, destination) {
+//     let pathQueue = new Queue();
+
+//     let visited = new Array(graph.rooms.length).fill(false);
+//     console.log(visited)
+
+//     pathQueue.enqueue(rootID);
+
+//     let steps = 100;
+//     while(!pathQueue.isEmpty() && steps > 0) {
+//         let currentPath = pathQueue.dequeue();
+
+//         if(visited[currentPath.at(-1)] === false) {
+//             visited[currentPath.at(-1)] = true;
+
+//             graph.rooms[currentPath].exits.map(element => {
+//                 if(visited[element] === false) {
+//                     pathQueue.enqueue(element);
+//                     console.log(element);
+//                 }
+//             })
+//         }
+//         steps--;
+        
+//     }
+//     return visited;
+// }
