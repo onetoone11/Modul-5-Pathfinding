@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWorldsTable extends Migration
+class RemoveColumnFromWorlds extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateWorldsTable extends Migration
      */
     public function up()
     {
-        Schema::create('worlds', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('type');
-            $table->timestamps();
+        Schema::table('worlds', function (Blueprint $table) {
+            $table->dropColumn('room_amount');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateWorldsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('worlds');
+        Schema::table('worlds', function (Blueprint $table) {
+            //
+        });
     }
 }
