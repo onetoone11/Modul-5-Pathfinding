@@ -68,7 +68,7 @@ class WorldsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return view('pages.create');
     }
 
     /**
