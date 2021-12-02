@@ -15,6 +15,9 @@ class CreateWorldsTable extends Migration
     {
         Schema::create('worlds', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('type');
+            $table->integer('room_amount');
             $table->timestamps();
         });
     }
