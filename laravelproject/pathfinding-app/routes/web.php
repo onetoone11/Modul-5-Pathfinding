@@ -17,4 +17,8 @@ Route::get('/', function () {
     return view('pages.home');
 });
 
+Route::get('/canvas', function () {
+    return view('pages.canvas');
+});
+
 Route::resource('pages','App\Http\Controllers\PagesController');
