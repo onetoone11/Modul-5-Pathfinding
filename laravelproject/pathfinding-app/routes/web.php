@@ -17,6 +17,15 @@ Route::get('/', function () {
     return view('pages.home');
 });
 
+Route::get('/create', function() {
+    return view('pages.create');  
+});
+
+Route::get('/load', function() {
+    return view('pages.load');  
+});
+   
+
 Route::get('/canvas', function () {
     return view('pages.canvas');
 });
