@@ -8,9 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class World extends Model
 {
     use HasFactory;
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
 }
