@@ -1,62 +1,171 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-
-// function circle(x, y, radius) {
-//     ctx.
-// }
-let arrayRandom = new Array(10).fill('').map(element => Math.random());
+let arrayRandom = new Array(100).fill('').map(element => [Math.random(), Math.random()]);
 
 let x = 0;
 let y = 0;
 
+let isClicking = false;
+
+let hasClicked = false;
+
 canvas.addEventListener('mousemove', e => {
-      x = e.offsetX;
-      y = e.offsetY;
+    x = e.offsetX;
+    y = e.offsetY;
 });
 
 canvas.addEventListener('mousedown', e => {
-    x = e.offsetX;
-    y = e.offsetY;
+    isClicking = true;
+    hasClicked = true;
 });
 
 canvas.addEventListener('mouseup', e => {
-    x = e.offsetX;
-    y = e.offsetY;
+    isClicking = false;
 });
+
+function isInsideCircle(x1, y1, x2, y2, r) {
+    if (((x1 - x2) ** 2 + (y1 - y2) ** 2 - r ** 2) < 0) {
+        return true;
+    }
+}
+
+function Circle(x, y, radius, exits = []) {
+    return {
+        x: x,
+        y: y,
+        radius: radius,
+        switch: false,
+        exits: exits,
+    }
+}
+
+let circleArray = new Array(20).fill('').map((element, index) =>
+    Circle(600 * arrayRandom[index][0], 600 * arrayRandom[index][1], 20)
+    // new Array(5).fill('').map((e,i) => i)
+    // [Math.floor(10*arrayRandom[index][1]),Math.floor(10*arrayRandom[index][0])]
+);
+
+/*
+for every circle in array:
+check if mouse is hovering over it(using the isInside function)
+check if mouse is clicking(using the isClicking variable)
+if both of these conditions are true, i.e. both the function value(with inputs being the circle position and radius)
+then toggle the circle using the Circle.switch() function. 
+if switch is true, then set fillstyle to green
+if switch is false, then set fillstyle to grey(maybe)
+close the path
+
+at the end of this loop, do ctx.fill
+*/
+
+function circleDraw(x, y, radius) {
+    ctx.beginPath();
+    ctx.lineWidth = 5;
+    ctx.arc(x, y, radius, 0, 2 * Math.PI);
+    ctx.fill();
+
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+}
+
+function lineDraw(x1, y1, x2, y2) {
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+}
+
+function arrowDraw(x1, y1, x2, y2) {
+    lineDraw()
+}
+
+function drawLines() {
+    for (let i = 0; i < circleArray.length; i++) {
+        for (let j = 0; j < circleArray[i].exits.length; j++) {
+            lineDraw(circleArray[i].x, circleArray[i].y, circleArray[circleArray[i].exits[j]].x, circleArray[circleArray[i].exits[j]].y);
+        }
+    }
+}
+
+function addExits(circles, from, to) {
+    if (!circles[from].exits.includes(to)) {
+        circles[from].exits.push(to);
+    }
+}
+
+let arrtest = [0, 0];
+
+function addLines() {
+    for (let i = 0; i < circleArray.length; i++) {
+        if (circleArray[i].switch) {
+            arrtest = [arrtest[1], i];
+            addExits(circleArray, arrtest[0], arrtest[1]);
+            circleArray[i].switch = false;
+        }
+    }
+}
+
+/*
+two steps:
+convert database info to an instance of a World class
+manipulate that data
+convert data back to database format
+insert into database and save
+*/
+
+/*
+if inside circle, and the user is clicking, and the 
+*/
+
+function mod(a, b) {
+    return a - b * Math.floor(a / b);
+}
+
+
+
+function drawCircles() {
+    for (let i = 0; i < circleArray.length; i++) {
+        if (isInsideCircle(x, y, circleArray[i].x, circleArray[i].y, circleArray[i].radius)) {
+            if (hasClicked && !circleArray[i].switch) {
+                circleArray[i].switch = true;
+                hasClicked = false;
+            }
+            if (hasClicked && circleArray[i].switch) {
+                circleArray[i].switch = false;
+                hasClicked = false;
+            }
+        }
+        if (circleArray[i].switch) {
+            ctx.fillStyle = "red";
+        } else {
+            ctx.fillStyle = "blue";
+        }
+        circleDraw(circleArray[i].x, circleArray[i].y, circleArray[i].radius);
+    }
+}
+
+
 
 function render(timestamp) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = 'rgb(0.0, 1.0, 1.0, 1.0)';    
-    // ctx.fillRect(50-x,50-y,x+50,y+50);
-    ctx.beginPath();
-    // ctx.arc(100*Math.cos(200)+canvas.width/2, 100*Math.sin(200)+canvas.height/2, 25, 0, 2 * Math.PI);
-    // ctx.arc(100*Math.cos(200 + 1)+canvas.width/2, 100*Math.sin(200 + 1)+canvas.height/2, 25, 0, 2 * Math.PI);
-    // ctx.arc(100*Math.cos(timestamp/100)+canvas.width/2, 100*Math.sin(timestamp/100)+canvas.height/2, 50, 0, 2 * Math.PI);
-    // ctx.arc(100*Math.cos(timestamp/200)+canvas.width/2, 100*Math.sin(timestamp/200)+canvas.height/2, 50, 0, 2 * Math.PI);
-    // for(let i = 0; i < 10; i++) {
-        
-    // // ctx.arc(100*Math.cos(timestamp/(1000*arrayRandom[i]) + i)+canvas.width/2, 100*Math.sin(timestamp/(1000*arrayRandom[i]) + i)+canvas.height/2, 10, 0, 2 * Math.PI);
-    
-    // ctx.closePath();    
-    // }
+    for (let i = 0; i < circleArray.length; i++) {
+        circleArray[i].x += 10 * Math.random() - 5;
+        circleArray[i].y += 10 * Math.random() - 5;
+    }
 
-    ctx.arc(x, y, 20, 0, 2 * Math.PI);
-    ctx.closePath();
+    addLines();
+    drawLines();
+    drawCircles();
+
 
     ctx.fill();
-    // ctx.beginPath();
-    // ctx.moveTo(0, 0);
-    // ctx.lineTo(300, 150);
-    // ctx.stroke();
-    
 
     requestAnimationFrame(render);
 }
 requestAnimationFrame(render);
-
-canvas.addEventListener('mousemove', mouseEvent);
 
 var inputs = document.getElementById("create_world").elements;
 console.log(inputs);
@@ -92,7 +201,7 @@ console.log(inputs);
 // void main(){
 //     vec2 uv = (gl_FragCoord.xy/u_resolution)-.5;
 //     uv.x *= u_resolution.x/u_resolution.y;
-  
+
 //     vec3 color = vec3(1.0, 0.0, 1.0);
 //     gl_FragColor = vec4(gl_FragCoord.xy/u_resolution, 1.0, 1.0);
 // }
@@ -193,7 +302,7 @@ console.log(inputs);
 //             6,
 //         );
 
-        
+
 //         requestAnimationFrame(render);
 //     }
 //     requestAnimationFrame(render);

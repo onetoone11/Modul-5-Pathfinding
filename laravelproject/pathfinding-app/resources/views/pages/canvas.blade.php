@@ -13,7 +13,7 @@
 
 <body>
     <div id="app">
-        {{-- <form id="create_world" class="form-group">
+        <form id="create_world" class="form-group">
             <p>Type</p>
             <div>
                 <input class="radio_select radio" type="radio" id="string_select" name="world_type">
@@ -42,11 +42,11 @@
             <input type="number" id="complexity_input" placeholder="Complexity">
 
             <input type="button" id="create_button" value="Create">
-        </form> --}}
+        </form>
 
-        {!! Form::open(['action' => 'App\Http\Controllers\WorldsController@update', 'method' => 'PUT']) !!}
+        {{-- {!! Form::open(['action' => 'App\Http\Controllers\WorldsController@update', 'method' => 'PUT']) !!}
         {!! Form::radio('type', 'string', true) !!}
-        {!! Form::close() !!}
+        {!! Form::close() !!} --}}
         <canvas id="canvas" width="1000" height="800" class="border border-dark"></canvas>
 
 
