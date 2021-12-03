@@ -31,3 +31,4 @@ Route::get('/canvas', function () {
 });
 
 Route::resource('pages','App\Http\Controllers\PagesController');
+// Route::resource('worlds', 'App\Http\Controllers\WorldsController');
