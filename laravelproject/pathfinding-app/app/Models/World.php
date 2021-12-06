@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class World extends Model
 {
     use HasFactory;
+
+    public function stories(){
+        return $this->hasMany('App\Models\Room');
+    }
 }
