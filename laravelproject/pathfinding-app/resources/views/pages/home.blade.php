@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="d-flex w-100 vh-100 justify-content-center" style="background-color: #36393f">
+    <div class="d-flex w-100 vh-100 justify-content-center" style="background-color: #202225">
         <div class="d-flex flex-column justify-content-evenly">
             <h1 class="text-center mt-5 mb-50" style="color: white;">Titel</h1>
             <div class="text-center fs-2 d-flex">

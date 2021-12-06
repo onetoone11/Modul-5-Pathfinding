@@ -3,71 +3,42 @@
 @section('content')
     <div class="worldContainer">
         <div class="worldItem">
-            <div class="worldCard">
+            <div class="worldCard shadow">
                 <h2>World Type</h2>
-                {{Form::open()}}
+                {{ Form::open(array('action' => 'App\Http\Controllers\WorldsController@store', 'method' => 'POST', 'class' => ''))}}
                 <div class="d-flex align-items-center justify-content-between vw-10">
                     {{Form::label("Circular")}}
-                    {{Form::radio('worldType', '', false, ['id' => 'circularWorld'])}}    
+                    {{Form::radio('worldType', 'Circular', false, ['id' => 'circularWorld', 'class' => 'worldType'])}}    
                 </div>
                 <br>
                 <div class="d-flex align-items-center justify-content-between">
                     {{Form::label("Square")}}
-                    {{Form::radio('worldType', '', false, ['id' => 'squareWorld'])}}
+                    {{Form::radio('worldType', 'Square', false, ['id' => 'squareWorld', 'class' => 'worldType'])}}
                 </div>
                 <br>
                 <div class="d-flex align-items-center justify-content-between">
                     {{Form::label("Branch")}}
-                    {{Form::radio('worldType', '', false, ['id' => 'branchWorld'])}}
+                    {{Form::radio('worldType', 'Branch', false, ['id' => 'branchWorld', 'class' => 'worldType'])}}
                 </div>
+                
+                <div class="worldItem" id="worldSettings">
+            
+                </div>
+
+                {{Form::submit('Create', ['type' => 'submit', 'style' => '', 'class' => 'createWorldButton shadow'])}}
+                {{-- <div style="position: absolute; left:50%; bottom: 10%">
+                    <a href="#" class="createWorldButton shadow">Create</a>
+                </div> --}}
+                
                 {{Form::close()}}
             </div>
         </div>
-        <div class="worldItem" id="worldSettings">
-            
-        </div>
+        
         
     </div>
-    <div style="position: relative; left: 50%">
-        <a href="#" class="createWorldButton">Create</a>
-    </div>
     
-    <style>
-        .createWorldButton {
-            position: absolute; 
-            bottom: 10%;
-            background-color: hsl(235,85.6%,64.7%);
-            padding: 12px;
-            color: white;
-            text-decoration: none;
-            left: -50%
-        }
-
-        .worldContainer {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            background-color: #36393f;
-        }
-
-        .worldItem {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-            font-size: 30px;
-            color: white; 
-            width: 25%;
-            margin-inline: 16px;
-        }
-
-        .worldCard {
-            background-color: gray;
-            padding: 25px;
-            border-radius: 8px;
-            height: 350px;
-        }
-    </style>
+    
+    
     <script>
 
         document.getElementById('circularWorld').addEventListener('click', () => {
@@ -89,7 +60,7 @@
 
                 case "circular":
                     let circularDiv = document.createElement('DIV');
-                    circularDiv.innerHTML = `<div class="worldCard">
+                    circularDiv.innerHTML = `<div class="worldCard shadow">
                                         <h2>Circular</h2>
                                         {{Form::open()}}
                                         <div class="d-flex flex-column" >
@@ -97,11 +68,7 @@
                                             {{Form::text('World Size', '', ['class' => 'textInput'])}}    
                                         </div>
                                         <br>
-                                        <div class="d-flex flex-column" >
-                                            {{Form::label("World Name")}}
-                                            {{Form::text('World Name', '', ['class' => 'textInput'])}}
-                                        </div>
-                                        <br>
+                                        
                                         
                                         {{Form::close()}}
                                     </div>` 
@@ -113,7 +80,7 @@
                 
                 case "square":
                     let squareDiv = document.createElement('DIV');
-                    squareDiv.innerHTML = `<div class="worldCard">
+                    squareDiv.innerHTML = `<div class="worldCard shadow">
                                         <h2>Square</h2>
                                         {{Form::open()}}
                                         <div class="d-flex flex-column" >
@@ -131,12 +98,17 @@
 
                 case "branch":
                     let branchDiv = document.createElement('DIV');
-                    branchDiv.innerHTML = `<div class="worldCard">
+                    branchDiv.innerHTML = `<div class="worldCard shadow">
                                         <h2>Branch</h2>
                                         {{Form::open()}}
                                         <div class="d-flex flex-column" >
                                             {{Form::label("World Size")}}
                                             {{Form::text('World Size', '', ['class' => 'textInput'])}}    
+                                        </div>
+                                        <br>
+                                        <div class="d-flex flex-column" >
+                                            {{Form::label("Branch Factor")}}
+                                            {{Form::text('Branch Factor', '', ['class' => 'textInput'])}}    
                                         </div>
                                         <br>
                                         {{Form::close()}}
@@ -154,4 +126,58 @@
 
         }
     </script>   
+
+<style>
+    .worldType {
+        transform: scale(1.5)
+    }
+
+    .createWorldButton {
+        position: relative; 
+        bottom: -10%;
+        background-color: hsl(235,85.6%,64.7%);
+        padding: 16px;
+        padding-inline: 32px;
+        color: white;
+        text-decoration: none;
+        left: -50%;
+        border-radius: 8px;
+        position: absolute; 
+        left:50%; 
+        bottom: 10%;
+    }
+
+    .createWorldButton:hover {
+        color: lightskyblue
+    }
+
+    .worldContainer {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        background-color: #202225;
+    }
+
+    .worldItem {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        font-size: 30px;
+        color: #b9bbbe; 
+        width: 25%;
+        margin-inline: 16px;
+    }
+    .worldItem h2 {
+        color: #fff; 
+
+    }
+
+    .worldCard {
+        background-color: #36393f;
+        padding: 25px;
+        border-radius: 8px;
+        height: 350px;
+    }
+</style>
 @endsection
