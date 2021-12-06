@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WorldsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,7 @@ Route::get('/load', function() {
 });
    
 
-Route::get('/canvas', function () {
-    return view('pages.canvas');
-});
+Route::get('/canvas/{id}',[WorldsController::class, 'show']);
 
 Route::resource('pages','App\Http\Controllers\PagesController');
 // Route::resource('worlds', 'App\Http\Controllers\WorldsController');

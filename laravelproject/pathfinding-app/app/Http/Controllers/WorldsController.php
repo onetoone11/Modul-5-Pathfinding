@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\World;
+use DB;
 
 class WorldsController extends Controller
 {
@@ -45,7 +47,10 @@ class WorldsController extends Controller
      */
     public function show($id)
     {
-        //
+        $type = DB::select("SELECT type FROM worlds WHERE id=$id");
+        $rooms = DB::select("SELECT rooms.id, rooms.exits FROM rooms INNER JOIN worlds ON rooms.world_id=worlds.id");
+
+        return view('pages.canvas')->with('rooms', $rooms)->with('type', $type);
     }
 
     /**

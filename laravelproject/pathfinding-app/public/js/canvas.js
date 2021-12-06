@@ -1,6 +1,8 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+// var world = 
+
 let arrayRandom = new Array(100).fill('').map(element => [Math.random(), Math.random()]);
 
 // var exits = "{{$rooms->exits}}";

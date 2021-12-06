@@ -14,7 +14,7 @@ class MakeWorldIdForeignID extends Migration
     public function up()
     {
         Schema::table('rooms', function(Blueprint $table) { 
-            $table->integer('world_id')->unsigned()->change(); 
+            $table->bigInteger('world_id')->unsigned()->change(); 
             $table->foreign('world_id')->references('id')->on('worlds')->onDelete('cascade'); 
         });
     }
