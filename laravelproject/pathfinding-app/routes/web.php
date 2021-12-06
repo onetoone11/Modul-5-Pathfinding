@@ -22,12 +22,12 @@ Route::get('/create', function() {
     return view('pages.create');  
 });
 
-Route::get('/load', function() {
-    return view('pages.load');  
-});
+Route::get('/load', [WorldsController::class, 'showAllWorlds']);
    
 
 Route::get('/canvas/{id}',[WorldsController::class, 'show']);
 
 Route::resource('pages','App\Http\Controllers\PagesController');
 // Route::resource('worlds', 'App\Http\Controllers\WorldsController');
+
+Route::post('/create', [WorldsController::class, 'store']);
