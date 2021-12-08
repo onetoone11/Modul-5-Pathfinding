@@ -25,7 +25,7 @@ Route::get('/create', function() {
 Route::get('/load', [WorldsController::class, 'showAllWorlds']);
    
 
-Route::get('/canvas/{id}',[WorldsController::class, 'show']);
+Route::get('/canvas/{id}',[WorldsController::class, 'show', 'getWorldSize']);
 
 Route::resource('pages','App\Http\Controllers\PagesController');
 // Route::resource('worlds', 'App\Http\Controllers\WorldsController');

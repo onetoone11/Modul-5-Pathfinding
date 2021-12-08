@@ -21,20 +21,19 @@
                     {{Form::radio('worldType', 'Branch', false, ['id' => 'branchWorld', 'class' => 'worldType'])}}
                 </div>
                 
-                <div class="worldItem" id="worldSettings">
-            
-                </div>
-
-                {{Form::submit('Create', ['type' => 'submit', 'style' => '', 'class' => 'createWorldButton shadow'])}}
-                {{-- <div style="position: absolute; left:50%; bottom: 10%">
-                    <a href="#" class="createWorldButton shadow">Create</a>
-                </div> --}}
                 
-                {{Form::close()}}
+                
             </div>
+            
         </div>
         
+        <div class="worldItem" id="worldSettings">
+        </div>
         
+        {{-- Check if world type selected (@if) --}}
+        {{Form::submit('Create', ['type' => 'submit', 'style' => '', 'class' => 'createWorldButton shadow btn'])}}
+
+        {{Form::close()}}
     </div>
     
     
@@ -62,23 +61,19 @@
                     let circularDiv = document.createElement('DIV');
                     circularDiv.innerHTML = `<div class="worldCard shadow">
                                         <h2>Circular</h2>
-                                        {{Form::open()}}
+                                        
                                         <div class="d-flex flex-column" >
                                             {{Form::label("World Size")}}
-                                            {{Form::text('World Size', '', ['class' => 'textInput'])}}    
+                                            {{Form::number('worldSize', '', ['class' => 'textInput'])}}    
                                         </div>
                                         <br>
-<<<<<<< HEAD
-                                        
-=======
                                         <div class="d-flex flex-column" >
                                             {{Form::label("World Name")}}
-                                            {{Form::text('World Name', '', ['class' => 'textInput form-control'])}}
+                                            {{Form::number('worldName', '', ['class' => 'textInput'])}}    
                                         </div>
                                         <br>
->>>>>>> 7dfedb8e9916c92715d9318458ae8c196a2eb923
                                         
-                                        {{Form::close()}}
+                                        
                                     </div>` 
                     if(document.getElementById("worldSettings").children.length){
                         document.getElementById("worldSettings").removeChild(document.getElementById("worldSettings").children[0])
@@ -90,13 +85,16 @@
                     let squareDiv = document.createElement('DIV');
                     squareDiv.innerHTML = `<div class="worldCard shadow">
                                         <h2>Square</h2>
-                                        {{Form::open()}}
                                         <div class="d-flex flex-column" >
                                             {{Form::label("World Size")}}
-                                            {{Form::text('World Size', '', ['class' => 'textInput'])}}    
+                                            {{Form::number('worldSize', '', ['class' => 'textInput'])}}    
                                         </div>
                                         <br>
-                                        {{Form::close()}}
+                                        <div class="d-flex flex-column" >
+                                            {{Form::label("World Name")}}
+                                            {{Form::number('worldName', '', ['class' => 'textInput'])}}    
+                                        </div>
+                                        <br>
                                     </div>`
                     if(document.getElementById("worldSettings").children.length){
                         document.getElementById("worldSettings").removeChild(document.getElementById("worldSettings").children[0])
@@ -108,18 +106,18 @@
                     let branchDiv = document.createElement('DIV');
                     branchDiv.innerHTML = `<div class="worldCard shadow">
                                         <h2>Branch</h2>
-                                        {{Form::open()}}
                                         <div class="d-flex flex-column" >
                                             {{Form::label("World Size")}}
-                                            {{Form::text('World Size', '', ['class' => 'textInput'])}}    
+                                            {{Form::number('worldSize', '', ['class' => 'textInput'])}}    
                                         </div>
-                                        <br>
+                                        <div class="d-flex flex-column" >
+                                            {{Form::label("World Name")}}
+                                            {{Form::number('worldName', '', ['class' => 'textInput'])}}    
+                                        </div>
                                         <div class="d-flex flex-column" >
                                             {{Form::label("Branch Factor")}}
-                                            {{Form::text('Branch Factor', '', ['class' => 'textInput'])}}    
+                                            {{Form::number('Branch Factor', '', ['class' => 'textInput'])}}    
                                         </div>
-                                        <br>
-                                        {{Form::close()}}
                                     </div>`
                     if(document.getElementById("worldSettings").children.length){
                         document.getElementById("worldSettings").removeChild(document.getElementById("worldSettings").children[0])
@@ -141,18 +139,14 @@
     }
 
     .createWorldButton {
-        position: relative; 
-        bottom: -10%;
+
         background-color: hsl(235,85.6%,64.7%);
         padding: 16px;
         padding-inline: 32px;
         color: white;
-        text-decoration: none;
-        left: -50%;
         border-radius: 8px;
-        position: absolute; 
-        left:50%; 
         bottom: 10%;
+        position: absolute;
     }
 
     .createWorldButton:hover {
