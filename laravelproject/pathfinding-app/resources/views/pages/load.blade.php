@@ -32,6 +32,11 @@ header('Location: http://localhost:8000')
 
     <script>
 
+
+        // temp
+        
+
+
         let parentDiv = document.getElementById('worldContainer');
 
         let worlds = {!! json_encode($data)!!};

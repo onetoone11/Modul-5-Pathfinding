@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\World;
 use DB;
 
-class WorldsController extends Controller
-{
+class WorldsController extends Controller {
+    
     /**
      * Display a listing of the resource.
      *
@@ -36,37 +36,16 @@ class WorldsController extends Controller
      */
     public function store(Request $request)
     {
-        // $data = DB::select(DB::raw('SELECT * FROM `worlds`'));
         
+
         $world = new World;
-        $world->name = $this->generateRandomName();
+        $world->name = $request->input('worldName');
         $world->type = $request->input('worldType');
         $world->save();
-        
+
         return redirect('load');
     }
 
-    function generateRandomName() {
-        
-        $vowels = 'aoueiy';
-        $consonants = 'bdfghklmnprstv';
-
-        $length = rand(4,10);
-
-        $randomName = '';
-
-        while($length > 0){
-            if($length-- %2 == 0) {
-                $randomName .= $consonants[rand(0,13)];
-            } else {
-                $randomName .= $vowels[rand(0,5)];
-            }
-        };
-
-       
-        
-        return $randomName;
-    }
 
     /**
      * Display the specified resource.
@@ -78,7 +57,6 @@ class WorldsController extends Controller
     {
         $type = DB::select("SELECT type FROM worlds WHERE id=$id");
         $rooms = DB::select("SELECT rooms.id, rooms.exits FROM rooms INNER JOIN worlds ON rooms.world_id=worlds.id");
-
         return view('pages.canvas')->with('rooms', $rooms)->with('type', $type);
     }
 
@@ -123,3 +101,4 @@ class WorldsController extends Controller
 
     
 }
+
