@@ -12,8 +12,7 @@
 </head>
 
 <body>
-    <div id="app">
-        <form id="create_world" class="form-group">
+        {{-- <form id="create_world" class="form-group">
             <p>Type</p>
             <div>
                 <input class="radio_select radio" type="radio" id="string_select" name="world_type">
@@ -42,12 +41,35 @@
             <input type="number" id="complexity_input" placeholder="Complexity">
 
             <input type="button" id="create_button" value="Create">
-        </form>
+        </form> --}}
 
         {{-- {!! Form::open(['action' => 'App\Http\Controllers\WorldsController@update', 'method' => 'PUT']) !!}
         {!! Form::radio('type', 'string', true) !!}
         {!! Form::close() !!} --}}
-        <canvas id="canvas" width="1000" height="800" class="border border-dark"></canvas>
+        <div class="vw-100 vh-100 d-flex justify-content-center align-items-center">
+        <canvas id="canvas" width="1000" height="800" class="border border-dark position-absolute"></canvas>
+        <div class="d-flex justify-content-between position-absolute">
+            <div>
+
+        <div class="form-check">
+        <input type=radio name="canvasMode" id="viewCanvas" value="view" class="form-check-input" checked>
+        <label for="viewCanvas" class="form-check-label">View</label>
+        </div>
+        <div class="form-check">
+        <input type=radio name="canvasMode" id="pathfindCanvas" value="pathfind" class="form-check-input">
+        <label for="pathfindCanvas" class="form-check-label">Pathfind</label>
+        </div>
+        <div class="form-check">
+        <input type="radio" name="canvasMode" id="editCanvas" value="edit" class="form-check-input">
+        <label for="editCanvas" class="form-check-label">Edit</label>
+            </div>
+        </div>
+        <input type="button" id="saveCanvas" value="Save" class="btn btn-primary btn-lg px-5" disabled>
+        </div>
+    </div>
+
+
+
 
 
     </div>
@@ -69,6 +91,8 @@
 
         let x = 0;
         let y = 0;
+
+        let state = document.querySelector('input[name="canvasMode"]:checked').value;
 
         let isLeftClicking = false;
 
@@ -187,11 +211,13 @@
                     
             //     }
             // }
-            let temp = circleArray.reduce((c, v, i) => v.switch === true ? c.concat(i) : c, []);
-            if(temp.length >= 2) {
-                addExits(circleArray, temp[0], temp[1]);
-                circleArray[temp[0]].switch = false;
-                circleArray[temp[1]].switch = false;
+            if(state === "edit") {
+                let temp = circleArray.reduce((c, v, i) => v.switch === true ? c.concat(i) : c, []);
+                if(temp.length >= 2) {
+                    addExits(circleArray, temp[0], temp[1]);
+                    circleArray[temp[0]].switch = false;
+                    circleArray[temp[1]].switch = false;
+                }
             }
         }
 
@@ -212,30 +238,88 @@
         }
 
 
+        switch(type) {
+            case "Circular":
+                break;
+            case "Grid":
+                break;
+            case "String":
+                break;
+        }
+
+        let selected = function
+
 
         function drawCircles() {
+            // circleArray.map((e,i) => {
+            //     switch(state) {
+            //         case "view":
+            //             if(isInsideCircle(x, y, circleArray[i].x, circleArray[i].y, circleArray[i].radius)) {
+            //                 if(isLeftClicking || circleArray[i].switch) {
+            //                     circleArray[i].switch = true;
+            //                     circleArray[i].x = x;
+            //                     circleArray[i].y = y;
+            //                 }
+            //             }
+            //             break;
+            //         case "edit":
+
+            //             break;
+            //         case "pathfind":
+
+            //             break;
+            //     }
+            //     circleDraw(circleArray[i].x, circleArray[i].y, circleArray[i].radius);
+            // })
+
+            /*
+            the different modes:
+                when in edit mode, these features are available:
+                    select any two nodes to establish a bidirectional(eventually unidirectional) connection between them
+                    changing color is optional
+                when in view mode, these features are available:
+                    drag nodes around, without coloring them
+                when in pathfinding mode, these features are available:
+                    click any two nodes, one starting node and one destination node. Alerts should show up informing the user of whether they are choosing a source or a destination
+                    these nodes should be colored.
+
+
+                instead of storing switches for turning the nodes on and off, store a pair of numbers(array) that contain the id of the last selected 
+            */
+
+
+
+
             for (let i = 0; i < circleArray.length; i++) {
-                if (circleArray[i].switch) {
+                if (circleArray[i].switch && state === "edit") {
                     ctx.fillStyle = `rgb(255,0,0)`;
                 } else {
                     ctx.fillStyle = `rgb(0,0,255)`;
                 }
                 if (isInsideCircle(x, y, circleArray[i].x, circleArray[i].y, circleArray[i].radius)) {
-                    if(hasLeftClicked) {
-                        circleArray[i].switch = !circleArray[i].switch;
-                    }
-                    if(isLeftClicking) {
-                        circleArray[i].x = x;
-                        circleArray[i].y = y;
-                    }
+                    switch(state) {
+                        case "view":
+                            if(isLeftClicking) {
+                                circleArray[i].x = x;
+                                circleArray[i].y = y;
+                            }
+                            break;
+                        case "pathfind":
+                            if(isLeftClicking) {
+                                circleArray[i].switch = true;
+                            }
+                            break;
+                        case "edit":
+                            if(hasLeftClicked) {
+                                circleArray[i].switch = !circleArray[i].switch;
+                            }
+                            break;
+                        }
                     circleDraw(circleArray[i].x, circleArray[i].y, circleArray[i].radius+3);
                 } else {
                     circleDraw(circleArray[i].x, circleArray[i].y, circleArray[i].radius);
                 }
             }
-            // if(isInsideCircle(x, y, circleArray[i].x, circleArray[i].y, circleArray[i].radius) && hasLeftClicked) {
-            //     circleArray.push(x, y, 20);
-            // }
             hasLeftClicked = false;
         }
 
@@ -257,12 +341,10 @@
 
             ctx.fill();
 
+            state = document.querySelector('input[name="canvasMode"]:checked').value;
             requestAnimationFrame(render);
         }
         requestAnimationFrame(render);
-
-        var inputs = document.getElementById("create_world").elements;
-        console.log(inputs);
 
 
         //convert to database friendly format

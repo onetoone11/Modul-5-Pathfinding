@@ -3,13 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-<<<<<<< HEAD
 use App\Models\World;
 use DB;
-=======
-use DB;
-use App\Models\World;
->>>>>>> d98a782c62f897055117f7615ca5feb41d4622d1
 
 class WorldsController extends Controller
 {
@@ -41,14 +36,14 @@ class WorldsController extends Controller
      */
     public function store(Request $request)
     {
-        $data = DB::select(DB::raw('SELECT * FROM `worlds`'));
+        // $data = DB::select(DB::raw('SELECT * FROM `worlds`'));
         
         $world = new World;
         $world->name = $this->generateRandomName();
         $world->type = $request->input('worldType');
         $world->save();
-        back();
-        return redirect('load')->with('data', $data);
+        
+        return redirect('load');
     }
 
     function generateRandomName() {

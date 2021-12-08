@@ -63,19 +63,6 @@ let circleArray = new Array(50).fill('').map((element, index) =>
     // [Math.floor(10*arrayRandom[index][1]),Math.floor(10*arrayRandom[index][0])]
 );
 
-/*
-for every circle in array:
-check if mouse is hovering over it(using the isInside function)
-check if mouse is clicking(using the isLeftClicking variable)
-if both of these conditions are true, i.e. both the function value(with inputs being the circle position and radius)
-then toggle the circle using the Circle.switch() function. 
-if switch is true, then set fillstyle to green
-if switch is false, then set fillstyle to grey(maybe)
-close the path
-
-at the end of this loop, do ctx.fill
-*/
-
 function circleDraw(x, y, radius) {
     ctx.beginPath();
     ctx.lineWidth = 5;
@@ -130,11 +117,13 @@ function addLines() {
             
     //     }
     // }
-    let temp = circleArray.reduce((c, v, i) => v.switch === true ? c.concat(i) : c, []);
-    if(temp.length >= 2) {
-        addExits(circleArray, temp[0], temp[1]);
-        circleArray[temp[0]].switch = false;
-        circleArray[temp[1]].switch = false;
+    if(state === "edit") {
+        let temp = circleArray.reduce((c, v, i) => v.switch === true ? c.concat(i) : c, []);
+        if(temp.length >= 2) {
+            addExits(circleArray, temp[0], temp[1]);
+            circleArray[temp[0]].switch = false;
+            circleArray[temp[1]].switch = false;
+        }
     }
 }
 
@@ -204,8 +193,6 @@ function render(timestamp) {
 }
 requestAnimationFrame(render);
 
-var inputs = document.getElementById("create_world").elements;
-console.log(inputs);
 
 
 //convert to database friendly format
