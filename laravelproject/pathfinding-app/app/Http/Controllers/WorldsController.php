@@ -37,11 +37,11 @@ class WorldsController extends Controller {
     public function store(Request $request)
     {
         
-
         $world = new World;
         $world->name = $request->input('worldName');
         $world->type = $request->input('worldType');
         $world->save();
+        
 
         return redirect('load');
     }

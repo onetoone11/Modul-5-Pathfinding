@@ -84,8 +84,8 @@
         let arrayRandom = new Array(100).fill('').map(element => [Math.random(), Math.random()]);
 
 
-        var rooms = {!! json_encode($rooms) !!};
-        var type = {!! json_encode($type) !!};
+        /* var rooms = {!! json_encode($rooms) !!};
+        var type = {!! json_encode($type) !!}; */
 
         // let circleArray
 

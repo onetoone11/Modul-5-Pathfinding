@@ -34,8 +34,6 @@ header('Location: http://localhost:8000')
 
 
         // temp
-        
-
 
         let parentDiv = document.getElementById('worldContainer');
 
