@@ -11,7 +11,7 @@
 
 </head>
 
-<body>
+<body style="background-color: #202225">
         {{-- <form id="create_world" class="form-group">
             <p>Type</p>
             <div>
@@ -79,6 +79,7 @@
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
 
+        // parse data from database
         //---------------------------------------------------------------------------------------------------------------------
         var rooms = {!! json_encode($rooms) !!};
         
@@ -90,6 +91,15 @@
         rooms = roomtemp;
         let roomAmount = Object.keys(rooms).length;
 
+        console.log(rooms);
+        console.log(type);
+        //---------------------------------------------------------------------------------------------------------------------
+
+        
+        let arrayRandom = new Array(roomAmount).fill('').map(element => [Math.random(), Math.random()]);
+        // let circleArray
+
+        let x = 0;
         let y = 0;
 
         let state = document.querySelector('input[name="canvasMode"]:checked').value;
