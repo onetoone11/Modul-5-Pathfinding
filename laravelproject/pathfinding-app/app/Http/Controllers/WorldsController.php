@@ -45,6 +45,7 @@ class WorldsController extends Controller {
         $world->name = $request->input('worldName');
         $world->type = $type;
         $world->save();
+        
 
         // $roomArray = array();
 

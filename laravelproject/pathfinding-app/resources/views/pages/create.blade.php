@@ -6,7 +6,6 @@
         <div class="worldItem">
             <div class="worldCard shadow">
                 <h2>World Type</h2>
-                
                 <div class="d-flex align-items-center justify-content-between vw-10">
                     {{Form::label("Circular")}}
                     {{Form::radio('worldType', 'Circular', false, ['id' => 'circularWorld', 'class' => 'worldType'])}}    
@@ -20,19 +19,16 @@
                 <div class="d-flex align-items-center justify-content-between">
                     {{Form::label("Branch")}}
                     {{Form::radio('worldType', 'Branch', false, ['id' => 'branchWorld', 'class' => 'worldType'])}}
-                </div>
-                
-                
-                
-            </div>
-            
+                </div> 
+            </div>    
         </div>
         
         <div class="worldItem" id="worldSettings">
+            
         </div>
         
         {{-- Check if world type selected (@if) --}}
-        {{Form::submit('Create', ['type' => 'submit', 'style' => '', 'class' => 'createWorldButton shadow btn'])}}
+        {{Form::submit('Create', ['type' => 'submit', 'style' => '', 'class' => 'createWorldButton shadow btn', 'onclick'=> 'submit1()'])}}
 
         {{Form::close()}}
     </div>
@@ -54,13 +50,13 @@
         })
 
         function selectedWorldType(worldType) {
-            console.log(worldType)
 
             switch (worldType) {
 
                 case "circular":
                     let circularDiv = document.createElement('DIV');
                     circularDiv.innerHTML = `<div class="worldCard shadow">
+<<<<<<< HEAD
                                         <h2>Circular</h2>
                                         
                                         <div class="d-flex flex-column" >
@@ -76,6 +72,19 @@
                                         
                                         {{Form::close()}}
                                     </div>` 
+=======
+                                                <h2>Circular</h2>
+                                                
+                                                <div class="d-flex flex-column" >
+                                                    {{Form::label("World Size")}}
+                                                    {{Form::number('worldSize', '', ['class' => 'textInput'])}}    
+                                                </div>
+                                                <div class="d-flex flex-column" >
+                                                    {{Form::label("World Name")}}
+                                                    {{Form::text('worldName')}}    
+                                                </div>
+                                            </div>` 
+>>>>>>> a35bd0c9cc3511d091e79ecec8d27574ebe1b606
                     if(document.getElementById("worldSettings").children.length){
                         document.getElementById("worldSettings").removeChild(document.getElementById("worldSettings").children[0])
                     }
@@ -85,6 +94,7 @@
                 case "square":
                     let squareDiv = document.createElement('DIV');
                     squareDiv.innerHTML = `<div class="worldCard shadow">
+<<<<<<< HEAD
                                         <h2>Square</h2>
                                         <div class="d-flex flex-column" >
                                             {{Form::label("World Size")}}
@@ -97,6 +107,18 @@
                                         </div>
                                         <br>
                                     </div>`
+=======
+                                                <h2>Square</h2>
+                                                <div class="d-flex flex-column" >
+                                                    {{Form::label("World Size")}}
+                                                    {{Form::number('worldSize', '', ['class' => 'textInput'])}}    
+                                                </div>
+                                                <div class="d-flex flex-column" >
+                                                    {{Form::label("World Name")}}
+                                                    {{Form::text('worldName')}}      
+                                                </div>
+                                            </div>`
+>>>>>>> a35bd0c9cc3511d091e79ecec8d27574ebe1b606
                     if(document.getElementById("worldSettings").children.length){
                         document.getElementById("worldSettings").removeChild(document.getElementById("worldSettings").children[0])
                     }
@@ -106,6 +128,7 @@
                 case "branch":
                     let branchDiv = document.createElement('DIV');
                     branchDiv.innerHTML = `<div class="worldCard shadow">
+<<<<<<< HEAD
                                         <h2>Branch</h2>
                                         <div class="d-flex flex-column" >
                                             {{Form::label("World Size")}}
@@ -120,6 +143,22 @@
                                             {{Form::number('Branch Factor', '', ['class' => 'textInput'])}}    
                                         </div>
                                     </div>`
+=======
+                                                <h2>Branch</h2>
+                                                <div class="d-flex flex-column" >
+                                                    {{Form::label("World Size")}}
+                                                    {{Form::number('worldSize', '', ['class' => 'textInput'])}}    
+                                                </div>
+                                                <div class="d-flex flex-column" >
+                                                    {{Form::label("World Name")}}
+                                                    {{Form::text('worldName')}}    
+                                                </div>
+                                                <div class="d-flex flex-column" >
+                                                    {{Form::label("Branch Factor")}}
+                                                    {{Form::number('Branch Factor', '', ['class' => 'textInput'])}}    
+                                                </div>
+                                            </div>`
+>>>>>>> a35bd0c9cc3511d091e79ecec8d27574ebe1b606
                     if(document.getElementById("worldSettings").children.length){
                         document.getElementById("worldSettings").removeChild(document.getElementById("worldSettings").children[0])
                     }
@@ -328,6 +367,11 @@
     </script>   
 
 <style>
+    form {
+        display: flex;
+        justify-content: center;
+    }
+
     .worldType {
         transform: scale(1.5)
     }
@@ -364,11 +408,11 @@
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
-        font-size: 30px;
+        font-size: 25px;
         color: #b9bbbe; 
-        width: 25%;
         margin-inline: 16px;
     }
+
     .worldItem h2 {
         color: #fff; 
 
@@ -379,7 +423,12 @@
         padding: 25px;
         border-radius: 8px;
         height: 350px;
+<<<<<<< HEAD
         width: 40vh;
+=======
+        width: 50vh;
+
+>>>>>>> a35bd0c9cc3511d091e79ecec8d27574ebe1b606
     }
 </style>
 @endsection
