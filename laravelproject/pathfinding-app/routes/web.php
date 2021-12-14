@@ -31,3 +31,8 @@ Route::resource('pages','App\Http\Controllers\PagesController');
 // Route::resource('worlds', 'App\Http\Controllers\WorldsController');
 
 Route::post('/create', [WorldsController::class, 'store']);
+
+
+Route::get('/test', function() {
+    return view('pages.test');
+});

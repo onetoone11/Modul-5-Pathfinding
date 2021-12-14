@@ -24,6 +24,9 @@ header('Location: http://localhost:8000')
                 <div style="width: 20%"></div>    
             </div>
             <div class="worldContainer" id="worldContainer">
+                @foreach($data as $worlds)
+                    
+                @endforeach
                 
             </div>
         </div>
@@ -34,7 +37,7 @@ header('Location: http://localhost:8000')
 
 
         // temp
-        
+        let roomAmount = {!!json_encode($roomAmount)!!};
 
 
         let parentDiv = document.getElementById('worldContainer');
@@ -45,28 +48,25 @@ header('Location: http://localhost:8000')
 
         for(let i = 0; i < worlds.length; i++) {
             console.log(worlds[i]);
-            addWorldItem(worlds[i].id, worlds[i].name, worlds[i].type);
+            addWorldItem(worlds[i].id, worlds[i].name, worlds[i].type,roomAmount[i]);
         }
 
 
 
-        function addWorldItem(worldId, worldName, worldType) {
-
-            let randNum = Math.floor(Math.random()*100)
-
+        function addWorldItem(worldId, worldName, worldType, roomAmount) {
             let child = document.createElement('DIV');
             child.innerHTML = `<div style="display: flex; justify-content:space-evenly; color:#b9bbbe; padding:8px; border-bottom: 1px solid hsla(0 0% 100% / 0.06)">
                                     <div style="width: 20%; text-align:center;">
                                         <h3>${worldId}</h3>
                                     </div>
                                     <div style="width: 20%; text-align:center;">
-                                        <h3>${worldName}</h3>
+                                        <a href="/canvas/${worldId}"><h3>${worldName}</h3></a>
                                     </div>
                                     <div style="width: 20%; text-align:center;">
                                         <h3>${worldType}</h3>
                                     </div>
                                     <div style="width: 20%; text-align:center;">
-                                        <h3>${randNum}</h3>    
+                                        <h3>${roomAmount}</h3>    
                                     </div>
                                     <div style="width: 20%; text-align:center; display:flex">
                                         <a href="#" style="color: #b9bbbe; background-color: #2f3136;" class="fs-5 btn">Edit</a>

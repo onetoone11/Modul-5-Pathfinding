@@ -1,4 +1,5 @@
-@extends('layouts.app')
+{{$worldSize}}
+{{-- @extends('layouts.app')
 
 @section('content')
     <div class="worldContainer">
@@ -154,4 +155,4 @@
 
         }
     </script>   
-@endsection
+@endsection --}}

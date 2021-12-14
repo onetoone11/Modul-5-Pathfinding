@@ -2,10 +2,11 @@
 
 @section('content')
     <div class="worldContainer">
+        {{ Form::open(array('action' => 'App\Http\Controllers\WorldsController@store', 'method' => 'POST', 'class' => ''))}}
         <div class="worldItem">
             <div class="worldCard shadow">
                 <h2>World Type</h2>
-                {{ Form::open(array('action' => 'App\Http\Controllers\WorldsController@store', 'method' => 'POST', 'class' => ''))}}
+                
                 <div class="d-flex align-items-center justify-content-between vw-10">
                     {{Form::label("Circular")}}
                     {{Form::radio('worldType', 'Circular', false, ['id' => 'circularWorld', 'class' => 'worldType'])}}    
@@ -69,11 +70,11 @@
                                         <br>
                                         <div class="d-flex flex-column" >
                                             {{Form::label("World Name")}}
-                                            {{Form::number('worldName', '', ['class' => 'textInput'])}}    
+                                            {{Form::text('worldName', '', ['class' => 'textInput'])}}    
                                         </div>
                                         <br>
                                         
-                                        
+                                        {{Form::close()}}
                                     </div>` 
                     if(document.getElementById("worldSettings").children.length){
                         document.getElementById("worldSettings").removeChild(document.getElementById("worldSettings").children[0])
@@ -92,7 +93,7 @@
                                         <br>
                                         <div class="d-flex flex-column" >
                                             {{Form::label("World Name")}}
-                                            {{Form::number('worldName', '', ['class' => 'textInput'])}}    
+                                            {{Form::text('worldName', '', ['class' => 'textInput'])}}    
                                         </div>
                                         <br>
                                     </div>`
@@ -112,7 +113,7 @@
                                         </div>
                                         <div class="d-flex flex-column" >
                                             {{Form::label("World Name")}}
-                                            {{Form::number('worldName', '', ['class' => 'textInput'])}}    
+                                            {{Form::text('worldName', '', ['class' => 'textInput'])}}    
                                         </div>
                                         <div class="d-flex flex-column" >
                                             {{Form::label("Branch Factor")}}
@@ -331,6 +332,11 @@
         transform: scale(1.5)
     }
 
+    form {
+        display: flex;
+        justify-content: center;
+    }
+
     .createWorldButton {
 
         background-color: hsl(235,85.6%,64.7%);
@@ -373,6 +379,7 @@
         padding: 25px;
         border-radius: 8px;
         height: 350px;
+        width: 40vh;
     }
 </style>
 @endsection
