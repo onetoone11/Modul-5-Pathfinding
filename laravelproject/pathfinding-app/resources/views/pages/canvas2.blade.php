@@ -68,8 +68,11 @@
         <label for="editCanvas" class="form-check-label text-light">Add Room</label>
         </div> --}}
         </div>
-        <input type="button" id="saveCanvas" value="Save" class="btn btn-primary btn-lg px-5">
-        {{-- {{ Form::open(array('action' => 'App\Http\Controllers\WorldsController@update', 'method' => 'POST', 'class' => ''))}} --}}
+        {{-- <input type="button" id="saveCanvas" value="Save" class="btn btn-primary btn-lg px-5"> --}}
+        {{-- {{ Form::open(array('action' => 'App\Http\Controllers\WorldsController@update', 'method' => 'POST', 'class' => ''))}}
+        {{ Form::hidden('invisible', 'secret', array('id' => 'saveWorldInput'))}}
+        {{ Form::submit('Save', array('id' => 'saveBtn', 'class' => 'btn btn-primary btn-lg px-5'))}}
+        {{ Form::close()}} --}}
         </div>
     </div>
 
@@ -84,7 +87,9 @@
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
 
-        const saveBtn = document.getElementById()
+        const saveBtn = document.getElementById('saveCanvas');
+        
+
 
         // parse data from database
         //---------------------------------------------------------------------------------------------------------------------
@@ -144,6 +149,10 @@
 
         let selected = [];
 
+        // saveBtn.addEventListener('click', e => {
+
+        // });
+
         canvas.addEventListener('mousemove', e => {
             x = e.offsetX;
             y = e.offsetY;
@@ -175,9 +184,9 @@
                 x: x,
                 y: y,
                 radius: radius,
-                z_index: z_index,
                 exits: exits,
                 id: id,
+                z_index: z_index,
             }
         }
 
@@ -272,7 +281,26 @@
                     }
                     break;
                 case "view":
-                    
+                if(isInsideCircle(x, y, circleArray[i].x, circleArray[i].y, circleArray[i].radius)) {
+                        if(hasLeftClicked) {
+                            if(selected.includes(i)) {
+                                selected = selected.filter(e => e !== i);
+                            } else {
+                                if(selected.length === 1) {
+                                    selected.push(i);
+                                    selected.shift();
+                                }
+                                if(selected.length > 1) {
+                                    while(selected.length > 1) {
+                                        selected.shift();
+                                    }
+                                }
+                                if(selected.length < 1) {
+                                    selected.push(i);
+                                }   
+                            }
+                        }
+                    }
                     break;
                 case "pathfind":
                     if(isInsideCircle(x, y, circleArray[i].x, circleArray[i].y, circleArray[i].radius)) {
