@@ -125,11 +125,8 @@ class WorldsController extends Controller {
         function circular($length) {
             $roomArray = array();
             for($i = 0; $i < $length; $i++) {
-                $room = array(
-                    "id" => $i,
-                    "exits" => array(modulo($i+1, $length),modulo($i-1, $length)),
-                    "name" => "bob",
-                );
+                $room = makeRoom($i, array(modulo($i+1, $length),modulo($i-1, $length)));
+                
                 $roomArray[] = $room;
             }
             return $roomArray;
