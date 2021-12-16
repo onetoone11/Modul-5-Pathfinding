@@ -373,12 +373,7 @@
         padding: 25px;
         border-radius: 8px;
         height: 350px;
-<<<<<<< HEAD
         width: 40vh;
-=======
-        width: 50vh;
-
->>>>>>> a35bd0c9cc3511d091e79ecec8d27574ebe1b606
     }
 </style>
 @endsection
