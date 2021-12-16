@@ -84,7 +84,7 @@
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
 
-        const saveBtn = document.getElementById()
+        //const saveBtn = document.getElementById()
 
         // parse data from database
         //---------------------------------------------------------------------------------------------------------------------

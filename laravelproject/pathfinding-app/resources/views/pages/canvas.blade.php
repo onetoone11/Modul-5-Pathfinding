@@ -410,6 +410,157 @@
 
         //convert to database friendly format
         //---------------------------------------------------------------------------
+
+        // Pathfinding
+        //---------------------------------------------------------------------------
+
+        // A-star
+        /* function to2d(arr) {
+            if(sideSize > 1) {
+                let _2dArr = [];
+                while(arr.length) _2dArr.push(arr.splice(0,sideSize));
+                return _2dArr
+            }
+            else {
+                return arr;
+            }
+        } */
+
+
+        let grid = new Array(sideSize);
+        for(let i = 0; i < grid.length; i++) {
+            grid[i] = new Array(sideSize)
+        }
+
+
+        for(let x = 0; x < grid.length; x++) {
+            for(let y = 0; y < grid.length; y++) {
+                grid[x][y] = {x: x, 
+                            y: y, 
+                            parent: null,
+                            g: 0,
+                            h: 0,
+                            f: 0,
+                            visited: false,
+                            closed: false,
+                            };
+            }
+        }
+
+
+        function astar(grid, start, end) {
+
+            let openList = [];
+            openList.push(grid[start.x][start.y]);
+            //console.log(openList[0]);
+
+            while(openList.length > 0) {
+
+                currentNode = openList.pop();
+
+                if(currentNode.x === end.x && currentNode.y === end.y) {
+                    let curr = currentNode;
+                    let ret = [start];
+                    while(curr.parent) {
+                        ret.push(curr);
+                        curr = curr.parent;
+                    }
+                    return ret.reverse();
+                }
+
+                currentNode.closed = true
+
+                let neighbours = findNeighbours(grid, currentNode.x, currentNode.y);
+                
+
+                for(let i=0, il = neighbours.length; i < il; i++) {
+                    let neighbour = neighbours[i];
+
+                    if(neighbour.closed) {
+                        continue;
+                    }
+
+                    let gScore = currentNode.g + heuristic(neighbour.x, neighbour.y, end.x, end.y);
+                    let beenVisited = neighbour.visited;
+
+                    //console.log(neighbour)
+                    if(!beenVisited || gScore < neighbour.g) {
+
+
+                        neighbour.visited = true;
+                        neighbour.parent = currentNode;
+                        neighbour.h = neighbour.h || heuristic(neighbour.x, neighbour.y, end.x, end.y)
+                        neighbour.g = gScore;
+                        neighbour.f = neighbour.g + neighbour.h
+                        
+
+                        if(!beenVisited) {
+                            openList.push(neighbour)
+                        }
+                        openList.unshift(openList.splice(openList.indexOf(neighbour), 1)[0])
+                    }
+                }
+            }
+            return [];
+        }
+
+        function array_move(arr, fromIndex, toIndex) {
+            let element = arr[fromIndex];
+            arr.splice(fromIndex, 1);
+            arr.splice(toIndex, 0, element)
+        }
+
+        function heuristic(aPosX, aPosY, bPosX, bPosY) {
+            let d1 = Math.abs(bPosX - aPosX)
+            let d2 = Math.abs(bPosY - aPosY)
+            return d1 * d2
+        }
+
+        function findNeighbours(grid, xPos, yPos) {
+            let rowLimit = grid.length - 1;
+            let columnLimit = grid[0].length - 1;
+            let returnArr = [];
+
+            for(let x = Math.max(0, xPos-1); x <= Math.min(xPos+1, rowLimit); x++) {
+                for(let y = Math.max(0, yPos-1); y <= Math.min(yPos+1, columnLimit); y++) {
+                    if(x !== xPos || y !== yPos) {
+                        returnArr.push(grid[x][y])
+                    }
+                }
+            }
+            return returnArr;
+        }
+
+        //Temp
+        let start = {x: 2, y: 5};
+        let end = {x: 0, y: 0};
+
+
+        /* function createGrid(sideScale) {
+            for(let rows = 0; rows < sideScale; rows++) {
+                let containerDiv = document.createElement('div');
+                containerDiv.className = "containerDiv"
+                for(let cols = 0; cols < sideScale; cols++) {
+
+                    let pos = {x: rows, y:cols}
+
+                    let item = document.createElement('div');
+                    item.innerHTML = `${pos.x} , ${pos.y}`;
+                    item.style.border = "1px solid black"
+                    item.style.width = "max-content"
+                    item.style.padding = "3px"
+
+                    for(let i = 0; i < path.length; i++) {
+                        if(pos.x === path[i].x && pos.y === path[i].y) {
+                            item.style.backgroundColor = "aqua"
+                        }
+
+                    }
+                    containerDiv.appendChild(item)
+                }
+                document.getElementById('container').append(containerDiv)
+            }
+        } */
     </script>
 </body>
 
