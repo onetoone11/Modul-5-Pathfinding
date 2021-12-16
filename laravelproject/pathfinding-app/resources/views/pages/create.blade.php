@@ -78,12 +78,16 @@
                     squareDiv.innerHTML = `<div class="worldCard shadow">
                                                 <h2>Square</h2>
                                                 <div class="d-flex flex-column" >
-                                                    {{Form::label("World Size")}}
+                                                    {{Form::label("World Name")}}
+                                                    {{Form::text('worldName')}}      
+                                                </div>
+                                                <div class="d-flex flex-column" >
+                                                    {{Form::label("Width")}}
                                                     {{Form::number('worldSize', '', ['class' => 'textInput'])}}    
                                                 </div>
                                                 <div class="d-flex flex-column" >
-                                                    {{Form::label("World Name")}}
-                                                    {{Form::text('worldName')}}      
+                                                    {{Form::label("Height")}}
+                                                    {{Form::number('param2', '', ['class' => 'textInput', 'step' => 'any'])}}    
                                                 </div>
                                             </div>`
                     if(document.getElementById("worldSettings").children.length){
@@ -97,16 +101,16 @@
                     branchDiv.innerHTML = `<div class="worldCard shadow">
                                                 <h2>Branch</h2>
                                                 <div class="d-flex flex-column" >
-                                                    {{Form::label("World Size")}}
-                                                    {{Form::number('worldSize', '', ['class' => 'textInput'])}}    
-                                                </div>
-                                                <div class="d-flex flex-column" >
                                                     {{Form::label("World Name")}}
                                                     {{Form::text('worldName')}}    
                                                 </div>
                                                 <div class="d-flex flex-column" >
+                                                    {{Form::label("World Size")}}
+                                                    {{Form::number('worldSize', '', ['class' => 'textInput'])}}    
+                                                </div>
+                                                <div class="d-flex flex-column" >
                                                     {{Form::label("Branch Factor")}}
-                                                    {{Form::number('Branch Factor', '', ['class' => 'textInput'])}}    
+                                                    {{Form::number('param2', '', ['class' => 'textInput', 'step' => 'any'])}}    
                                                 </div>
                                             </div>`
                     if(document.getElementById("worldSettings").children.length){

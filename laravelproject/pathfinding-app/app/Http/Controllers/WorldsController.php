@@ -41,9 +41,13 @@ class WorldsController extends Controller {
         $type = $request->input('worldType');
         $worldSize = $request->input('worldSize');
 
+        $param2 = $request->input('param2');
+
         $world = new World;
         $world->name = $request->input('worldName');
         $world->type = $type;
+        $world->param1 = $worldSize;
+        $world->param2 = $param2;
         $world->save();
         
 
@@ -168,11 +172,6 @@ class WorldsController extends Controller {
                     if($y < $sideLength - 1) {
                         $exits[] = to1D($x, $y+1, $sideLength);
                     }
-                    // $room = array(
-                    //     "id" => to1D($x, $y, $sideLength),
-                    //     "exits" => $exits,
-                    //     "name" => "bob",
-                    // );
                     $room = makeRoom(to1D($x, $y, $sideLength), $exits);
                     $roomArray[] = $room;
                 }
@@ -184,7 +183,7 @@ class WorldsController extends Controller {
             $roomArray = array();
             $currentBranch = $initBranch;
             $start = 0;
-            while($currentBranch > 5) {
+            while($currentBranch >= 5) {
                 for($i = 0; $i < floor($currentBranch); $i++) {
                     $exits = array();
                     if($i > 0) {
@@ -193,11 +192,6 @@ class WorldsController extends Controller {
                     if($i < floor($currentBranch) - 1) {
                         $exits[] = $i + $start + 1;
                     }
-                    // $room = array(
-                    //     "id" => $i + $start,
-                    //     "exits" => $exits,
-                    //     "name" => "hjfkf",
-                    // );
                     $room = makeRoom($i + $start, $exits);
                     $roomArray[] = $room;
                 }
@@ -248,7 +242,8 @@ class WorldsController extends Controller {
     {
         $type = DB::select("SELECT type FROM worlds WHERE id=$id");
         $rooms = DB::select("SELECT `name`, `exit_id`, `exits` FROM rooms WHERE world_id=$id");
-        return view('pages.canvas')->with('rooms', $rooms)->with('type', $type);
+        $params = DB::select("SELECT param1, param2 FROM worlds WHERE id=$id");
+        return view('pages.canvas2')->with('rooms', $rooms)->with('type', $type)->with('params', $params);
     }
 
     /**
