@@ -161,12 +161,30 @@
             }
         }
 
-        let circleArray = new Array(roomAmount).fill('').map((element, index) =>
-            Circle(canvas.width * arrayRandom[index][0], canvas.height * arrayRandom[index][1], 20, rooms[index])
-            // new Array(5).fill('').map((e,i) => i)
-            // [Math.floor(10*arrayRandom[index][1]),Math.floor(10*arrayRandom[index][0])]
-        );
+        switch(type) {
+            case "Circular":
+                let circleArray = new Array(roomAmount).fill('').map((element, index) =>
+                    Circle(50*Math.cos(roomAmount*2*Math.PI/index), 50*Math.sin(roomAmount*2*Math.PI/index), 20, rooms[index])
+                );
+                break;
+            case "Grid":
+                break;
+            case "String":
+                break;
+        }
 
+        // let circleArray = new Array(roomAmount).fill('').map((element, index) =>
+        //             Circle(canvas.width*Math.cos(roomAmount*2*Math.PI/index), canvas.height*Math.sin(roomAmount*2*Math.PI/index), 20, rooms[index])
+        // );
+        let circleArray = [];
+
+        if(type === 'Circular') {
+            circleArray = new Array(roomAmount).fill('').map((element, index) =>
+                    Circle(500*Math.cos(roomAmount*2*Math.PI/index), 500*Math.sin(roomAmount*2*Math.PI/index), 20, rooms[index])
+            );
+        }
+
+        // Circle(canvas.width * arrayRandom[index][0], canvas.height * arrayRandom[index][1], 20, rooms[index])
         /*
         for every circle in array:
         check if mouse is hovering over it(using the isInside function)
@@ -206,7 +224,7 @@
             
         // }
 
-        let adjacencyMatrix = circleArray.map(element => new Array(circleArray.length));
+        // let adjacencyMatrix = circleArray.map(element => new Array(circleArray.length));s
 
         function fromDatabaseToObject() {
 
@@ -224,8 +242,6 @@
             if (!circles[from].exits.includes(to)) {
                 circles[from].exits.push(to);
             }
-
-            // if()
         }
 
         // let arrtest = [0, 0];
@@ -239,20 +255,16 @@
         //         }
         //     }
         // }
+        // let selected = [];
+
+        function editSelected(id) {
+            selected.push(id);
+            selected.shift();
+            return selected;
+        }
 
         function addLines() {
-            // for (let i = 0; i < circleArray.length; i++) {
-            //     if (circleArray[i].switch) {
-                    
-            //     }
-            // }
             if(state === "edit") {
-                // let temp = circleArray.reduce((c, v, i) => v.switch === true ? c.concat(i) : c, []);
-                // if(temp.length >= 2) {
-                //     addExits(circleArray, temp[0], temp[1]);
-                //     circleArray[temp[0]].switch = false;
-                //     circleArray[temp[1]].switch = false;
-                // }
                 selected.map(element => {
                     lineDraw(circleArray[element].x, circleArray[element].y, circleArray[circleArray[i].exits[j]].x, circleArray[circleArray[i].exits[j]].y);
                 })
@@ -273,16 +285,6 @@
 
         function mod(a, b) {
             return a - b * Math.floor(a / b);
-        }
-
-
-        switch(type) {
-            case "Circular":
-                break;
-            case "Grid":
-                break;
-            case "String":
-                break;
         }
 
         // let selected = function
